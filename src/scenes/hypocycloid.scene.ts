@@ -1,30 +1,49 @@
 import {BaseScene} from "./common/base.scene";
-import {RangeElement} from "./common/elements/range.element";
 import {CircleObject} from "./common/shapes/circle.object"
 import {PointObject} from "./common/shapes/point.object";
-import {Canvas} from "./common/elements/canvas-old.element";
 import {VerticesObject} from "./common/shapes/vertices.object";
 import {Angle} from "./common/geometry/angle";
-import {NumberElement} from "./common/elements/number.element";
+import { Colors } from '@/scenes/common/colors';
 
-export class EpicycloidApp extends BaseScene {
-  private readonly _innerDiameter = new RangeElement('inner-circle-diameter');
-  private readonly _outerDiameter = new RangeElement('outer-circle-diameter');
+export class HypocycloidScene extends BaseScene {
+  private _innerDiameter: number;
+  private _outerDiameter: number;
   private readonly _innerCircle: CircleObject;
   private readonly _outerCircle: CircleObject;
-  private readonly _pointDistance = new NumberElement('point-distance');
+  private _pointDistance: number;
   private readonly _point: PointObject;
   private _circleAngle: Angle = new Angle(360);
   private _pointAngle: Angle = new Angle(360);
-  private _line: VerticesObject = new VerticesObject();
+  private _line: VerticesObject = new VerticesObject(this.canvas, Colors.FireEngineRed);
 
-  constructor() {
-    super(960, 600);
-    Canvas.init('main-canvas', 960, 600);
-    this._innerCircle = new CircleObject(Canvas.width / 2, Canvas.height / 2, this._innerDiameter.value / 2, '#000');
-    this._outerCircle = new CircleObject(this._innerCircle.x, this._innerCircle.y + this._outerDiameter.value / 2, this._outerDiameter.value / 2, '#000');
-    this._point = new PointObject(this._outerCircle.x, this._outerCircle.y + this._pointDistance.value);
-    this._initListeners();
+  set innerDiameter(value: number) {
+    this._innerDiameter = value;
+    this._line.reset();
+    this._innerCircle.radius = value / 2;
+    this._innerCircle.x = this.canvas.width / 2;
+  }
+
+  set outerDiameter(value: number) {
+    this._outerDiameter = value;
+    this._line.reset();
+    this._outerCircle.radius = value / 2;
+    this._outerCircle.x = this._outerCircle.radius + value / 2;
+  }
+
+  set pointDistance(value: number) {
+    this._pointDistance = value;
+    this._line.reset();
+    this._outerCircle.x = this._outerCircle.radius;
+  }
+
+  constructor(root: string, innerInitialDiameter: number, outerInitialDiameter: number, initialPointDistance: number) {
+    super(root,960, 600);
+    this._innerDiameter = innerInitialDiameter;
+    this._outerDiameter = outerInitialDiameter;
+    this._pointDistance = initialPointDistance;
+    this._innerCircle = new CircleObject(this.canvas,this.canvas.width / 2, this.canvas.height / 2, this._innerDiameter / 2, '#000');
+    this._outerCircle = new CircleObject(this.canvas, this._innerCircle.x, this._innerCircle.y + this._outerDiameter / 2, this._outerDiameter / 2, '#000');
+    this._point = new PointObject(this.canvas, this._outerCircle.x, this._outerCircle.y + this._pointDistance);
   }
 
   protected _draw(): void {
@@ -42,35 +61,21 @@ export class EpicycloidApp extends BaseScene {
     this._pointAngle.add(this._innerCircle.radius / this._outerCircle.radius + 1);
     this._outerCircle.x = this._innerCircle.x - ((this._innerCircle.radius - this._outerCircle.radius) * Math.cos(this._circleAngle.radians))
     this._outerCircle.y = this._innerCircle.y - ((this._innerCircle.radius -  this._outerCircle.radius) * Math.sin(this._circleAngle.radians))
-    this._point.x = this._outerCircle.x - ((this._pointDistance.value) * Math.cos(this._pointAngle.radians));
-    this._point.y = this._outerCircle.y - ((this._pointDistance.value) * Math.sin(this._pointAngle.radians));
+    this._point.x = this._outerCircle.x - ((this._pointDistance) * Math.cos(this._pointAngle.radians));
+    this._point.y = this._outerCircle.y - ((this._pointDistance) * Math.sin(this._pointAngle.radians));
     this._line.addPoint(this._point.x, this._point.y);
   }
 
   private _resetCanvas(): void {
-    Canvas.ctx.fillStyle = 'white';
-    Canvas.ctx.fillRect(0, 0, Canvas.width, Canvas.height);
-  }
-
-  private _initListeners(): void {
-    this._innerDiameter.onChange(diameter => {
-      this._line.reset();
-      this._innerCircle.radius = diameter / 2;
-    });
-    this._outerDiameter.onChange(diameter => {
-      this._line.reset();
-      this._outerCircle.radius = diameter / 2;
-    });
-    this._pointDistance.onChange(() => {
-      this._line.reset();
-    });
+    this.canvas.ctx.fillStyle = 'white';
+    this.canvas.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   private _drawLineBetween(): void {
-    Canvas.ctx.strokeStyle = '#0f0';
-    Canvas.ctx.beginPath();
-    Canvas.ctx.moveTo(this._outerCircle.x, this._outerCircle.y);
-    Canvas.ctx.lineTo(this._point.x, this._point.y);
-    Canvas.ctx.stroke();
+    this.canvas.ctx.strokeStyle = '#0f0';
+    this.canvas.ctx.beginPath();
+    this.canvas.ctx.moveTo(this._outerCircle.x, this._outerCircle.y);
+    this.canvas.ctx.lineTo(this._point.x, this._point.y);
+    this.canvas.ctx.stroke();
   }
 }

@@ -14,6 +14,16 @@ const router = createRouter({
       name: 'cycloid',
       component: () => import('../views/labs/CycloidView.vue'),
     },
+    {
+      path: '/labs/epicycloid',
+      name: 'epicycloid',
+      component: () => import('../views/labs/EpicycloidView.vue'),
+    },
+    {
+      path: '/labs/hypocycloid',
+      name: 'hypocycloid',
+      component: () => import('../views/labs/HypocycloidView.vue'),
+    },
   ],
 });
 

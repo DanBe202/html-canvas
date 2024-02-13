@@ -1,4 +1,4 @@
-import {Canvas} from '../elements/canvas.element';
+import type { Canvas } from '@/scenes/common/elements/canvas.element';
 
 export class CircleObject {
   private _x: number;
@@ -31,7 +31,14 @@ export class CircleObject {
     this._y = value;
   }
 
-  constructor(x: number, y: number, r: number, stroke?: string, fill?: string) {
+  constructor(
+    public readonly canvas: Canvas,
+    x: number,
+    y: number,
+    r: number,
+    stroke?: string,
+    fill?: string
+  ) {
     this._x = x;
     this._y = y;
     this._r = r;
@@ -41,14 +48,14 @@ export class CircleObject {
 
   draw(): void {
     if (this._stroke) {
-      Canvas.ctx.strokeStyle = this._stroke;
+      this.canvas.ctx.strokeStyle = this._stroke;
     }
-    Canvas.ctx.beginPath();
-    Canvas.ctx.arc(this._x, this._y, this._r, 0, 2 * Math.PI);
+    this.canvas.ctx.beginPath();
+    this.canvas.ctx.arc(this._x, this._y, this._r, 0, 2 * Math.PI);
     if (this._fill) {
-      Canvas.ctx.fillStyle = this._fill;
-      Canvas.ctx.fill();
+      this.canvas.ctx.fillStyle = this._fill;
+      this.canvas.ctx.fill();
     }
-    Canvas.ctx.stroke();
+    this.canvas.ctx.stroke();
   }
 }

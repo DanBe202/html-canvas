@@ -2,8 +2,8 @@ import {BaseScene} from "./common/base.scene";
 import {RangeElement} from "./common/elements/range.element";
 import {CircleObject} from "./common/shapes/circle.object"
 import {PointObject} from "./common/shapes/point.object";
-import {Canvas} from "./common/elements/canvas.element";
-import {VerticeObject} from "./common/shapes/vertice.object";
+import {Canvas} from "./common/elements/canvas-old.element";
+import {VerticesObject} from "./common/shapes/vertices.object";
 import {Angle} from "./common/geometry/angle";
 import {NumberElement} from "./common/elements/number.element";
 
@@ -16,7 +16,7 @@ export class EpicycloidScene extends BaseScene {
   private readonly _point: PointObject;
   private _circleAngle: Angle = new Angle(360);
   private _pointAngle: Angle = new Angle(360);
-  private _line: VerticeObject = new VerticeObject();
+  private _line: VerticesObject = new VerticesObject();
 
   constructor() {
     super(960, 600);

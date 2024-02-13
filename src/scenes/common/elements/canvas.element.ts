@@ -1,66 +1,84 @@
 export class Canvas {
 
-  private static _id: string | undefined;
+  private _setup: boolean = false;
 
-  private static _canvas: HTMLCanvasElement | undefined;
+  private readonly _id: string = Math.random().toString(16).slice(2);
 
-  private static _ctx: CanvasRenderingContext2D | undefined;
+  private readonly _root: string;
 
-  private static _width: number | undefined;
+  private readonly _canvas: HTMLCanvasElement = document.createElement('canvas');
 
-  private static _height: number | undefined;
+  private readonly _ctx: CanvasRenderingContext2D | null = this._canvas.getContext('2d');
 
-  static get id(): string {
-    if (!this._id) {
-      throw new Error('Canvas was not initialized');
-    }
-    return this._id;
-  }
+  private readonly _width: number;
 
-  static get canvas(): HTMLCanvasElement {
-    if (!this._canvas) {
-      const element = document.getElementById(this.id);
-      if (!element) {
-        throw new Error(`Canvas with id ${this.id} was not found`);
-      }
-      if (!(element instanceof HTMLCanvasElement)) {
-        throw new Error(`Element ${element.tagName} is not a canvas`);
-      }
-      this._canvas = element as HTMLCanvasElement;
-    }
+  private readonly _height: number;
+
+  get canvas(): HTMLCanvasElement {
     return this._canvas;
   }
 
-  static get ctx(): CanvasRenderingContext2D {
+  get ctx(): CanvasRenderingContext2D {
     if (!this._ctx) {
-      this._ctx = this.canvas.getContext('2d')!;
+      throw new Error('Error while obtaining canvas 2d context');
     }
     return this._ctx;
   }
 
-  static get width(): number {
-    if (!this._width) {
-      throw new Error('Canvas was not initialized');
-    }
+  get width(): number {
     return this._width;
   }
 
-  static get height(): number {
-    if (!this._height) {
-      throw new Error('Canvas was not initialized');
-    }
+  get height(): number {
     return this._height;
   }
 
-  static init(id: string, width: number, height: number): void {
-    this._id = id;
+  constructor(root: string, width: number, height: number) {
+    this._root = root;
     this._width = width;
     this._height = height;
-    this.canvas.style.width = `${width}px`;
-    this.canvas.style.height = `${height}px`;
+    this._canvas.setAttribute('id', this._id);
+    this._resize();
+    try {
+      this.setup();
+    } catch (error) {
+      console.warn('Canvas was not initialized in constructor');
+    }
+  }
+
+  setup(): void {
+    if (this._setup) {
+      return;
+    }
+    const rootElement = document.querySelector(this._root);
+    if (!rootElement) {
+      throw new RootSelectorNotFound(this._root);
+    }
+    if (!(rootElement instanceof HTMLElement)) {
+      throw new RootElementTypeError();
+    }
+    rootElement.appendChild(this._canvas);
+    this._setup = true;
+  }
+
+  private _resize(): void {
+    this._canvas.style.width = `${this._width}px`;
+    this._canvas.style.height = `${this._height}px`;
     const scale = window.devicePixelRatio;
-    this.canvas.width = Math.floor(width * scale);
-    this.canvas.height = Math.floor(height * scale);
+    this._canvas.width = Math.floor(this._width * scale);
+    this._canvas.height = Math.floor(this._height * scale);
     this.ctx.scale(scale, scale);
+  }
+}
+
+class RootSelectorNotFound extends Error {
+  constructor(root: string) {
+    super(`Root element with selector: ${root} was not found`);
+  }
+}
+
+class RootElementTypeError extends Error {
+  constructor() {
+    super(`Root element is not an HTMLElement`);
   }
 }

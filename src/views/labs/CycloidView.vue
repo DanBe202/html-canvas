@@ -4,35 +4,20 @@ import { CycloidScene } from '@/scenes/cycloid.scene';
 
 const circleDiameter = ref(100);
 const pointDistance = ref(50);
-let scene: CycloidScene | undefined;
+let scene: CycloidScene = new CycloidScene('#cycloid-app', circleDiameter.value, pointDistance.value);
 
 onMounted(() => {
-  scene = new CycloidScene(circleDiameter.value, pointDistance.value);
   scene.start();
 });
-
-function onDiameterChange(): void {
-  if (!scene) {
-    return;
-  }
-  scene.diameter = circleDiameter.value;
-}
-
-function onPointDistanceChange(): void {
-  if (!scene) {
-    return;
-  }
-  scene.pointDistance = pointDistance.value;
-}
 </script>
 
 <template>
-  <div class="grid grid-rows-2 gap-4">
-    <div>
-      <canvas class="m-auto" id="main-canvas"></canvas>
+  <div class="grid gap-4">
+    <div class="flex justify-center"
+         id="cycloid-app">
     </div>
-    <div class="grid grid-cols-2 mt-3 gap-4">
-      <label>
+    <div class="grid grid-cols-2 mx-6 mt-3 gap-4">
+      <label class="block mt-4">
         Diameter: {{circleDiameter}}
         <input id="circle-diameter"
                type="range"
@@ -40,7 +25,7 @@ function onPointDistanceChange(): void {
                max="200"
                v-model.number="circleDiameter"
                class="range range-accent mt-2"
-               @input="onDiameterChange()"/>
+               @input="scene.diameter = circleDiameter"/>
       </label>
       <label class="mt-4 block">
         Distance from center
@@ -51,7 +36,7 @@ function onPointDistanceChange(): void {
                max="200"
                v-model.number="pointDistance"
                class="input input-bordered w-full mt-2"
-               @input="onPointDistanceChange()"/>
+               @input="scene.pointDistance = pointDistance"/>
       </label>
     </div>
   </div>

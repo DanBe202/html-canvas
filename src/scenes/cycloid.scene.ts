@@ -1,21 +1,22 @@
-import {CircleObject} from './common/shapes/circle.object';
-import {BaseScene} from './common/base.scene';
-import {PointObject} from './common/shapes/point.object';
+import { CircleObject } from './common/shapes/circle.object';
+import { BaseScene } from './common/base.scene';
+import { PointObject } from './common/shapes/point.object';
 import { VerticesObject } from '@/scenes/common/shapes/vertices.object';
 import { Colors } from '@/scenes/common/colors';
+import { Angle } from '@/scenes/common/geometry/angle';
 
 export class CycloidScene extends BaseScene {
   private readonly _groundHeight = 100;
   private _diameter: number;
   private _pointDistance: number;
-  private _angle: number = 270;
+  private _angle: Angle = new Angle(270);
   private _line: VerticesObject = new VerticesObject(this.canvas, Colors.FireEngineRed);
   private readonly _circle: CircleObject;
   private readonly _point: PointObject;
 
   set diameter(value: number) {
     this._diameter = value;
-    this._line.reset()
+    this._line.reset();
     this._circle.radius = value / 2;
     this._circle.x = value / 2;
     this._circle.y = this._getCircleYCoordinate();
@@ -25,10 +26,6 @@ export class CycloidScene extends BaseScene {
     this._pointDistance = value;
     this._line.reset();
     this._circle.x = this._circle.radius;
-  }
-
-  private get angleRadians(): number {
-    return this._angle * Math.PI / 180;
   }
 
   constructor(root: string, initialDiameter: number, initialPointDistance: number) {
@@ -43,16 +40,20 @@ export class CycloidScene extends BaseScene {
     this._resetCanvas();
     this._ground();
     this._line.draw();
-    if (this._circle.x + this._circle.radius < this.canvas.width) {
-      this._angle += 1;
-      this._point.x = this._circle.x + (this._pointDistance * Math.cos(this.angleRadians));
-      this._point.y = this._circle.y + (this._pointDistance * Math.sin(this.angleRadians));
-      this._line.addPoint(this._point.x, this._point.y);
-      this._circle.x += 1;
-    }
+    this._step();
     this._circle.draw();
     this._drawLineBetween();
     this._point.draw();
+  }
+
+  private _step(): void {
+    if (this._circle.x + this._circle.radius < this.canvas.width) {
+      this._angle.add(1);
+      this._point.x = this._circle.x + (this._pointDistance * Math.cos(this._angle.radians));
+      this._point.y = this._circle.y + (this._pointDistance * Math.sin(this._angle.radians));
+      this._line.addPoint(this._point.x, this._point.y);
+      this._circle.x += Math.sqrt((this._diameter * this._diameter) / this.canvas.width);
+    }
   }
 
   private _resetCanvas(): void {

@@ -30,4 +30,12 @@ export class VerticesObject {
   public reset(): void {
     this._points = [];
   }
+
+  public static line(canvas: Canvas, x1: number, y1: number, x2: number, y2: number, stroke: Colors): void {
+    canvas.ctx.strokeStyle = stroke;
+    canvas.ctx.beginPath();
+    canvas.ctx.moveTo(x1, y1);
+    canvas.ctx.lineTo(x2, y2);
+    canvas.ctx.stroke();
+  }
 }

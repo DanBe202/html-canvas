@@ -10,20 +10,25 @@ const router = createRouter({
       component: DashboardView,
     },
     {
-      path: '/labs/cycloid',
-      name: 'cycloid',
-      component: () => import('../views/labs/CycloidView.vue'),
-    },
-    {
-      path: '/labs/epicycloid',
-      name: 'epicycloid',
-      component: () => import('../views/labs/EpicycloidView.vue'),
-    },
-    {
-      path: '/labs/hypocycloid',
-      name: 'hypocycloid',
-      component: () => import('../views/labs/HypocycloidView.vue'),
-    },
+      path: '/labs',
+      children: [
+        {
+          path: 'cycloid',
+          name: 'cycloid',
+          component: () => import('../views/labs/CycloidView.vue'),
+        },
+        {
+          path: 'epicycloid',
+          name: 'epicycloid',
+          component: () => import('../views/labs/EpicycloidView.vue'),
+        },
+        {
+          path: 'hypocycloid',
+          name: 'hypocycloid',
+          component: () => import('../views/labs/HypocycloidView.vue'),
+        },
+      ]
+    }
   ],
 });
 

@@ -1,47 +1,55 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { CycloidScene } from '@/scenes/cycloid.scene';
+import ControlsPanel from '@/components/common/ControlsPanel.vue';
+import InputGroup from '@/components/common/InputGroup.vue';
 
 const circleDiameter = ref(100);
 const pointDistance = ref(50);
-let scene: CycloidScene = new CycloidScene('#cycloid-app', circleDiameter.value, pointDistance.value);
+let scene: CycloidScene = new CycloidScene(
+  '#cycloid-app',
+  circleDiameter.value,
+  pointDistance.value,
+);
 
 onMounted(() => {
-  scene.start();
+  scene.setup();
 });
 </script>
 
 <template>
-  <div class="grid gap-4">
-    <div class="flex justify-center"
-         id="cycloid-app">
-    </div>
-    <div class="grid grid-cols-2 mx-6 mt-3 gap-4">
-      <label class="block mt-4">
-        Diameter: {{circleDiameter}}
-        <input id="circle-diameter"
-               type="range"
-               min="10"
-               max="200"
-               v-model.number="circleDiameter"
-               class="range range-accent mt-2"
-               @input="scene.diameter = circleDiameter"/>
-      </label>
-      <label class="mt-4 block">
-        Distance from center
-        <input id="point-distance"
-               placeholder="Enter point distance from center"
-               type="number"
-               min="20"
-               max="200"
-               v-model.number="pointDistance"
-               class="input input-bordered w-full mt-2"
-               @input="scene.pointDistance = pointDistance"/>
-      </label>
-    </div>
+  <div class="grid gap-4 grid-cols-1 lg:grid-cols-6">
+    <div
+      class="flex justify-center lg:col-span-4"
+      id="cycloid-app"></div>
+    <ControlsPanel
+      class="lg:col-span-2"
+      :started="scene.processing"
+      @reset="scene.reset()"
+      @start="scene.start()"
+      @stop="scene.stop()">
+      <InputGroup
+        label="Diameter"
+        :label-alt="circleDiameter">
+        <input
+          type="range"
+          min="10"
+          max="200"
+          v-model.number="circleDiameter"
+          class="range range-accent"
+          @input="scene.diameter = circleDiameter" />
+      </InputGroup>
+      <InputGroup
+        label="Distance from center"
+        :label-alt="pointDistance">
+        <input
+          type="range"
+          min="20"
+          max="200"
+          v-model.number="pointDistance"
+          class="range range-accent"
+          @input="scene.pointDistance = pointDistance" />
+      </InputGroup>
+    </ControlsPanel>
   </div>
 </template>
-
-<style scoped>
-
-</style>

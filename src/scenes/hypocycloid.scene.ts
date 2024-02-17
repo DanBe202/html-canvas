@@ -67,12 +67,12 @@ export class HypocycloidScene extends BaseScene {
   }
 
   private _resetCanvas(): void {
-    this.canvas.ctx.fillStyle = 'white';
+    this.canvas.ctx.fillStyle = Colors.Beige;
     this.canvas.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   private _drawLineBetween(): void {
-    this.canvas.ctx.strokeStyle = '#0f0';
+    this.canvas.ctx.strokeStyle = Colors.Teal;
     this.canvas.ctx.beginPath();
     this.canvas.ctx.moveTo(this._outerCircle.x, this._outerCircle.y);
     this.canvas.ctx.lineTo(this._point.x, this._point.y);

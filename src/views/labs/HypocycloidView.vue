@@ -8,7 +8,6 @@ const pointDistance = ref(50);
 let scene: HypocycloidScene = new HypocycloidScene('#hypocycloid-app', innerCircleDiameter.value, outerCircleDiameter.value, pointDistance.value);
 
 onMounted(() => {
-  console.log('Mounted');
   scene.start();
 });
 </script>
@@ -27,7 +26,7 @@ onMounted(() => {
                max="200"
                v-model.number="innerCircleDiameter"
                class="range range-accent mt-2"
-               @input="scene.innerDiameter = innerCircleDiameter"/>
+               @input="scene.innerDiameter = innerCircleDiameter" />
       </label>
       <label class="block mt-4">
         Inner circle diameter: {{ outerCircleDiameter }}
@@ -37,10 +36,10 @@ onMounted(() => {
                max="200"
                v-model.number="outerCircleDiameter"
                class="range range-accent mt-2"
-               @input="scene.outerDiameter = outerCircleDiameter"/>
+               @input="scene.outerDiameter = outerCircleDiameter" />
       </label>
       <label class="mt-4 block">
-        Distance from center: {{pointDistance}}
+        Distance from center: {{ pointDistance }}
         <input id="point-distance"
                placeholder="Enter point distance from center"
                type="number"

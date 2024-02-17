@@ -8,7 +8,6 @@ const pointDistance = ref(50);
 let scene: EpicycloidScene = new EpicycloidScene('#epicycloid-app', innerCircleDiameter.value, outerCircleDiameter.value, pointDistance.value);
 
 onMounted(() => {
-  console.log('Mounted');
   scene.start();
 });
 </script>

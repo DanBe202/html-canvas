@@ -17,4 +17,8 @@ export class Angle {
   public add(degree: number): void {
     this._degrees += degree;
   }
+
+  public set(degree: number): void {
+    this._degrees = degree;
+  }
 }

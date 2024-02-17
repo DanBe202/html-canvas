@@ -43,8 +43,7 @@ export class CycloidScene extends BaseScene {
 
   override reset(): void {
     this._line.reset();
-    this._circle.x = this._circle.radius;
-    this._circle.y = this._getCircleYCoordinate();
+    this._circle.setCenter(this._circle.radius, this._getCircleYCoordinate());
     this._angle.set(270);
     if (!this.processing) {
       this._draw();

@@ -9,7 +9,7 @@ const { started } = withDefaults(defineProps<Props>(), { started: false });
 
 const processing = ref(started);
 
-const emit = defineEmits(['start', 'stop', 'reset']);
+const emit = defineEmits(['start', 'stop', 'reset', 'info']);
 
 function onStart(): void {
   processing.value = true;
@@ -37,12 +37,17 @@ function toggle(): void {
     </div>
     <div class="grid grid-cols-3 mt-4 gap-2">
       <button
-        class="btn btn-warning col-start-2"
+        class="btn btn-info"
+        @click="$emit('info')">
+        Info
+      </button>
+      <button
+        class="btn btn-warning"
         @click="$emit('reset')">
         Reset
       </button>
       <button
-        class="btn col-start-3"
+        class="btn"
         :class="processing ? 'btn-error' : 'btn-success'"
         @click="toggle()">
         {{ processing ? 'Stop' : 'Start' }}

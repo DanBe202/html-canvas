@@ -20,6 +20,7 @@ export abstract class BaseScene {
 
   setup(start: boolean = false): void {
     this.canvas.setup();
+    this.reset();
     this._draw();
     window.requestAnimationFrame(this._redraw.bind(this));
     this.canvas.onResize(() => {

@@ -21,6 +21,7 @@ export class Canvas {
     this._preferredWidth = width;
     this._height = height;
     this._canvas.setAttribute('id', this._id);
+    this._canvas.classList.add('rounded-2xl');
     this._resize();
     try {
       this.setup();

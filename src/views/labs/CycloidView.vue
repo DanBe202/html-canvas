@@ -3,6 +3,9 @@ import { onMounted, ref } from 'vue';
 import { CycloidScene } from '@/scenes/cycloid.scene';
 import ControlsPanel from '@/components/common/ControlsPanel.vue';
 import InputGroup from '@/components/common/InputGroup.vue';
+import CanvasRoot from '@/components/common/CanvasRoot.vue';
+import ModalWindow from '@/components/common/ModalWindow.vue';
+import CycloidWiki from '@/components/wiki/CycloidWiki.vue';
 
 const circleDiameter = ref(100);
 const pointDistance = ref(50);
@@ -11,6 +14,7 @@ let scene: CycloidScene = new CycloidScene(
   circleDiameter.value,
   pointDistance.value,
 );
+const infoModal = ref<InstanceType<typeof ModalWindow> | null>(null);
 
 onMounted(() => {
   scene.setup();
@@ -19,15 +23,16 @@ onMounted(() => {
 
 <template>
   <div class="grid gap-4 grid-cols-1 lg:grid-cols-6">
-    <div
-      class="flex justify-center lg:col-span-4"
-      id="cycloid-app"></div>
+    <CanvasRoot
+      class="lg:col-span-4"
+      id="cycloid-app"></CanvasRoot>
     <ControlsPanel
       class="lg:col-span-2"
       :started="scene.processing"
       @reset="scene.reset()"
       @start="scene.start()"
-      @stop="scene.stop()">
+      @stop="scene.stop()"
+      @info="infoModal?.open()">
       <InputGroup
         label="Diameter"
         :label-alt="circleDiameter">
@@ -51,5 +56,8 @@ onMounted(() => {
           @input="scene.pointDistance = pointDistance" />
       </InputGroup>
     </ControlsPanel>
+    <ModalWindow ref="infoModal">
+      <CycloidWiki></CycloidWiki>
+    </ModalWindow>
   </div>
 </template>

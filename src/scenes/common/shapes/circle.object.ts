@@ -58,4 +58,9 @@ export class CircleObject {
     }
     this.canvas.ctx.stroke();
   }
+
+  public setCenter(x: number, y: number): void {
+    this._x = x;
+    this._y = y;
+  }
 }

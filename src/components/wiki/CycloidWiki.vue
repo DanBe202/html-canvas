@@ -33,6 +33,18 @@ import WikiRoot from './WikiRoot.vue';
       where t is a real parameter corresponding to the angle through which the rolling circle has rotated. For given t,
       the circle's centre lies at <code>(x, y) = (rt, r)</code>.
     </p>
+    <p>The Cartesian equation is obtained by solving the y-equation for t and substituting into the x-equation:</p>
+    <pre class="whitespace-pre-line">
+      <code>
+        x = r cos⁻¹( 1 − ( y / r )) − √(y (2r − y))
+      </code>
+    </pre>
+    <p>or, eliminating the multiple-valued inverse cosine:</p>
+    <pre class="whitespace-pre-line">
+      <code>
+        r cos( x + √( y ( 2r − y )) / r ) + y = r
+      </code>
+    </pre>
   </WikiRoot>
 </template>
 

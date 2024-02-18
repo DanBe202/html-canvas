@@ -4,6 +4,8 @@ import { HypocycloidScene } from '@/scenes/hypocycloid.scene';
 import CanvasRoot from '@/components/common/CanvasRoot.vue';
 import ControlsPanel from '@/components/common/ControlsPanel.vue';
 import InputGroup from '@/components/common/InputGroup.vue';
+import ModalWindow from '@/components/common/ModalWindow.vue';
+import HypocycloidWiki from '@/components/wiki/HypocycloidWiki.vue';
 
 const innerCircleDiameter = ref(100);
 const outerCircleDiameter = ref(50);
@@ -14,6 +16,7 @@ let scene: HypocycloidScene = new HypocycloidScene(
   outerCircleDiameter.value,
   pointDistance.value,
 );
+const infoModal = ref<InstanceType<typeof ModalWindow> | null>(null);
 
 onMounted(() => {
   scene.setup();
@@ -31,7 +34,8 @@ onMounted(() => {
       :started="scene.processing"
       @start="scene.start()"
       @stop="scene.stop()"
-      @reset="scene.reset()">
+      @reset="scene.reset()"
+      @info="infoModal?.open()">
       <InputGroup
         label="Inner circle diameter"
         :label-alt="innerCircleDiameter">
@@ -66,6 +70,9 @@ onMounted(() => {
           @input="scene.pointDistance = pointDistance" />
       </InputGroup>
     </ControlsPanel>
+    <ModalWindow ref="infoModal">
+      <HypocycloidWiki></HypocycloidWiki>
+    </ModalWindow>
   </div>
 </template>
 

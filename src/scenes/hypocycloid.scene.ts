@@ -78,7 +78,7 @@ export class HypocycloidScene extends BaseScene {
 
   private _step(): void {
     this._circleAngle.add(-1);
-    this._pointAngle.add(this._innerCircle.radius / this._outerCircle.radius + 1);
+    this._pointAngle.add(this._innerCircle.radius / this._outerCircle.radius - 1);
     this._outerCircle.x =
       this._innerCircle.x - (this._innerCircle.radius - this._outerCircle.radius) * Math.cos(this._circleAngle.radians);
     this._outerCircle.y =

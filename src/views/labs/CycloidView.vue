@@ -9,11 +9,7 @@ import CycloidWiki from '@/components/wiki/CycloidWiki.vue';
 
 const circleDiameter = ref(100);
 const pointDistance = ref(50);
-let scene: CycloidScene = new CycloidScene(
-  '#cycloid-app',
-  circleDiameter.value,
-  pointDistance.value,
-);
+let scene: CycloidScene = new CycloidScene('#cycloid-app', circleDiameter.value, pointDistance.value);
 const infoModal = ref<InstanceType<typeof ModalWindow> | null>(null);
 
 onMounted(() => {

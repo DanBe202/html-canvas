@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { XMarkIcon } from '@heroicons/vue/16/solid';
 
 const dialog = ref<HTMLDialogElement | null>(null);
 
@@ -16,7 +17,9 @@ defineExpose({ open });
     class="modal modal-bottom md:modal-middle">
     <div class="modal-box md:w-11/12 lg:w-6/12 md:max-w-5xl h-full md:h-auto">
       <form method="dialog">
-        <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+        <button class="btn btn-sm btn-circle btn-ghost fixed right-4 top-4">
+          <XMarkIcon></XMarkIcon>
+        </button>
       </form>
       <slot></slot>
     </div>

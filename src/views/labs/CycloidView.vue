@@ -6,13 +6,14 @@ import InputGroup from '@/components/common/InputGroup.vue';
 import CanvasRoot from '@/components/common/CanvasRoot.vue';
 import ModalWindow from '@/components/common/ModalWindow.vue';
 import CycloidWiki from '@/components/wiki/CycloidWiki.vue';
+import RangeInput from '@/components/common/RangeInput.vue';
 
 const circleDiameter = ref(100);
 const pointDistance = ref(50);
 let scene: CycloidScene = new CycloidScene('#cycloid-app', circleDiameter.value, pointDistance.value);
 const infoModal = ref<InstanceType<typeof ModalWindow> | null>(null);
 
-onMounted(() => {
+onMounted(async () => {
   scene.setup();
 });
 </script>
@@ -32,24 +33,18 @@ onMounted(() => {
       <InputGroup
         label="Diameter"
         :label-alt="circleDiameter">
-        <input
-          type="range"
-          min="10"
-          max="200"
-          v-model.number="circleDiameter"
-          class="range range-accent"
-          @input="scene.diameter = circleDiameter" />
+        <RangeInput
+          v-model="circleDiameter"
+          :range="[10, 200]"
+          @update:model-value="scene.diameter = circleDiameter"></RangeInput>
       </InputGroup>
       <InputGroup
         label="Distance from center"
         :label-alt="pointDistance">
-        <input
-          type="range"
-          min="20"
-          max="200"
-          v-model.number="pointDistance"
-          class="range range-accent"
-          @input="scene.pointDistance = pointDistance" />
+        <RangeInput
+          v-model="pointDistance"
+          :range="[20, 200]"
+          @update:model-value="scene.pointDistance = pointDistance"></RangeInput>
       </InputGroup>
     </ControlsPanel>
     <ModalWindow ref="infoModal">

@@ -1,5 +1,6 @@
 // Generated colors from https://coolors.co/
 export enum Colors {
+  Black = '#000000',
   PrussianBlue = '#0B3954',
   Teal = '#087E8B',
   ColumbiaBlue = '#BFD7EA',
@@ -9,5 +10,5 @@ export enum Colors {
   Pearl = '#D6D1B1',
   TeaGreen = '#C7EFCF',
   Beige = '#EEF5DB',
-  HunterGreen = '#386150'
+  HunterGreen = '#386150',
 }

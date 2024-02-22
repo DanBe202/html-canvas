@@ -7,7 +7,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <article class="prose">
+  <article class="prose mx-auto">
     <h1>{{ title }}</h1>
     <slot></slot>
   </article>

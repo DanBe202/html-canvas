@@ -1,19 +1,17 @@
 import type { Ref } from 'vue';
 import { ref } from 'vue';
+import { Colors } from '@/scenes/common/colors';
 
 export class Canvas {
   private readonly _setup: Ref<boolean> = ref(false);
-
   private readonly _id: string = Math.random().toString(16).slice(2);
-
   private readonly _root: string;
-
   private readonly _canvas: HTMLCanvasElement = document.createElement('canvas');
-
   private readonly _ctx: CanvasRenderingContext2D | null = this._canvas.getContext('2d');
   private readonly _preferredWidth: number;
   private readonly _height: number;
   private readonly _onResizeCallbacks: (() => void)[] = [];
+  private _width: number;
 
   constructor(root: string, width: number, height: number) {
     this._root = root;
@@ -29,8 +27,6 @@ export class Canvas {
       console.warn('Canvas was not initialized in constructor');
     }
   }
-
-  private _width: number;
 
   get width(): number {
     return this._width;
@@ -76,6 +72,17 @@ export class Canvas {
       true,
     );
     this._setup.value = true;
+  }
+
+  state(process: () => void): void {
+    this.ctx.save();
+    process();
+    this.ctx.restore();
+  }
+
+  background(color: Colors): void {
+    this.ctx.fillStyle = color;
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   private _onResize(element: HTMLElement): void {

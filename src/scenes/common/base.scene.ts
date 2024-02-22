@@ -1,9 +1,11 @@
 import { Canvas } from '@/scenes/common/elements/canvas.element';
 import type { Ref } from 'vue';
 import { ref } from 'vue';
+import { ImageLoader } from '@/scenes/common/loaders/image.loader';
 
 export abstract class BaseScene {
   public readonly canvas: Canvas;
+  public readonly images: ImageLoader = new ImageLoader();
   private readonly _processing: Ref<boolean> = ref(false);
 
   protected constructor(root: string, width: number, height: number) {
@@ -14,11 +16,9 @@ export abstract class BaseScene {
     return this._processing.value;
   }
 
-  protected abstract _draw(): void;
-
   public abstract reset(): void;
 
-  setup(start: boolean = false): void {
+  public setup(start: boolean = false): void {
     this.canvas.setup();
     this.reset();
     this._draw();
@@ -33,16 +33,21 @@ export abstract class BaseScene {
     }
   }
 
-  start(): void {
+  public start(): void {
     this._processing.value = true;
   }
 
-  stop(): void {
+  public stop(): void {
     this._processing.value = false;
   }
 
+  protected abstract _draw(): void;
+
+  protected abstract _step(): void;
+
   private _redraw() {
     if (this.processing) {
+      this._step();
       this._draw();
     }
     window.requestAnimationFrame(this._redraw.bind(this));

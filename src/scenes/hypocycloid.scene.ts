@@ -2,7 +2,7 @@ import {BaseScene} from "./common/base.scene";
 import {CircleObject} from "./common/shapes/circle.object"
 import {PointObject} from "./common/shapes/point.object";
 import {VerticesObject} from "./common/shapes/vertices.object";
-import {Angle} from "./common/geometry/angle";
+import {Angle} from "@/scenes/common/math/angle";
 import { Colors } from '@/scenes/common/colors';
 
 export class HypocycloidScene extends BaseScene {
@@ -68,15 +68,15 @@ export class HypocycloidScene extends BaseScene {
 
   protected _draw(): void {
     this._resetCanvas();
-    this._line.draw();
     this._step();
+    this._line.draw();
     this._innerCircle.draw();
     this._outerCircle.draw();
     VerticesObject.line(this.canvas, this._outerCircle.x, this._outerCircle.y, this._point.x, this._point.y, Colors.Teal);
     this._point.draw();
   }
 
-  private _step(): void {
+  protected _step(): void {
     this._circleAngle.add(-1);
     this._pointAngle.add(this._innerCircle.radius / this._outerCircle.radius - 1);
     this._outerCircle.x =

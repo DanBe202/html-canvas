@@ -2,7 +2,7 @@ import { BaseScene } from './common/base.scene';
 import { CircleObject } from './common/shapes/circle.object';
 import { PointObject } from './common/shapes/point.object';
 import { VerticesObject } from './common/shapes/vertices.object';
-import { Angle } from '@/scenes/common/geometry/angle';
+import { Angle } from '@/scenes/common/math/angle';
 import { Colors } from '@/scenes/common/colors';
 
 export class EpicycloidScene extends BaseScene {
@@ -50,8 +50,8 @@ export class EpicycloidScene extends BaseScene {
     );
     this._outerCircle = new CircleObject(
       this.canvas,
-      this._innerCircle.x,
-      this._innerCircle.y - this._innerDiameter / 2,
+      this._innerCircle.x - this._innerDiameter / 2,
+      this._innerCircle.y,
       this._outerDiameter / 2,
       Colors.PrussianBlue,
     );
@@ -61,7 +61,8 @@ export class EpicycloidScene extends BaseScene {
   public reset() {
     this._line.reset();
     this._innerCircle.x = this.canvas.width / 2;
-    this._outerCircle.setCenter(this._innerCircle.x, this._innerCircle.y - this._innerDiameter / 2);
+    this._outerCircle.setCenter(this._innerDiameter + this._innerCircle.x, this._innerCircle.y);
+    this._point.setCenter({ x:  this._outerCircle.x + this._pointDistance, y: this._outerCircle.y });
     this._circleAngle.set(360);
     this._pointAngle.set(360);
     if (!this.processing) {
@@ -70,16 +71,22 @@ export class EpicycloidScene extends BaseScene {
   }
 
   protected _draw(): void {
-    this._resetCanvas();
+    this.canvas.background(Colors.Beige);
     this._line.draw();
-    this._step();
     this._innerCircle.draw();
     this._outerCircle.draw();
-    VerticesObject.line(this.canvas, this._outerCircle.x, this._outerCircle.y, this._point.x, this._point.y, Colors.Teal);
+    VerticesObject.line(
+      this.canvas,
+      this._outerCircle.x,
+      this._outerCircle.y,
+      this._point.x,
+      this._point.y,
+      Colors.Teal,
+    );
     this._point.draw();
   }
 
-  private _step(): void {
+  protected _step(): void {
     this._circleAngle.add(1);
     this._pointAngle.add(this._innerCircle.radius / this._outerCircle.radius + 1);
     this._outerCircle.x =
@@ -89,10 +96,5 @@ export class EpicycloidScene extends BaseScene {
     this._point.x = this._outerCircle.x + this._pointDistance * Math.cos(this._pointAngle.radians);
     this._point.y = this._outerCircle.y + this._pointDistance * Math.sin(this._pointAngle.radians);
     this._line.addPoint(this._point.x, this._point.y);
-  }
-
-  private _resetCanvas(): void {
-    this.canvas.ctx.fillStyle = Colors.Beige;
-    this.canvas.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 }

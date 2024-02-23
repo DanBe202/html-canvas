@@ -12,6 +12,7 @@ export class Canvas {
   private readonly _height: number;
   private readonly _onResizeCallbacks: (() => void)[] = [];
   private _width: number;
+  private readonly _lineWidth: number = 2;
 
   constructor(root: string, width: number, height: number) {
     this._root = root;
@@ -72,6 +73,9 @@ export class Canvas {
       true,
     );
     this._setup.value = true;
+    if (this._ctx) {
+      this._ctx.lineWidth = this._lineWidth;
+    }
   }
 
   state(process: () => void): void {
@@ -83,6 +87,14 @@ export class Canvas {
   background(color: Colors): void {
     this.ctx.fillStyle = color;
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  public putImageData(imageData: ImageData, dx: number, dy: number): void {
+    this.state(() => {
+      const scale = window.devicePixelRatio;
+      this.ctx.scale(1 / scale, 1 / scale);
+      this.ctx.putImageData(imageData, dx, dy);
+    });
   }
 
   private _onResize(element: HTMLElement): void {

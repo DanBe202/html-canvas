@@ -6,15 +6,18 @@ export class PointObject implements Point {
   private readonly _fillStyle: Colors;
   private _x: number;
   private _y: number;
+  private readonly _radius: number;
 
   constructor(
     public readonly canvas: Canvas,
     x: number,
     y: number,
+    radius: number = 3,
     fillStyle: Colors = Colors.FireEngineRed,
   ) {
     this._x = x;
     this._y = y;
+    this._radius = radius;
     this._fillStyle = fillStyle;
   }
 
@@ -37,7 +40,7 @@ export class PointObject implements Point {
   public draw(): void {
     this.canvas.ctx.fillStyle = this._fillStyle;
     this.canvas.ctx.beginPath();
-    this.canvas.ctx.arc(this._x, this._y, 3, 0, 2 * Math.PI);
+    this.canvas.ctx.arc(this._x, this._y, this._radius, 0, 2 * Math.PI);
     this.canvas.ctx.fill();
   }
 

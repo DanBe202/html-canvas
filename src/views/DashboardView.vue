@@ -21,6 +21,11 @@ const cards = ref([
     link: '/labs/hypocycloid',
     image: '/labs/hypocycloid.png',
   },
+  {
+    title: 'Mandelbrot fractal',
+    description: 'Showcase of the beautiful mMandelbrot fractal',
+    link: '/labs/mandelbrot-fractal',
+  },
 ]);
 </script>
 

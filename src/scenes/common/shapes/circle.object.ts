@@ -1,5 +1,5 @@
 import type { Canvas } from '@/scenes/common/elements/canvas.element';
-import { Angle } from '@/scenes/common/geometry/angle';
+import { Angle } from '@/scenes/common/math/angle';
 import { Colors } from '@/scenes/common/colors';
 import type { Point } from '@/interfaces/point.interface';
 

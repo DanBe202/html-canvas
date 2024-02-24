@@ -24,7 +24,8 @@ const cards = ref([
   {
     title: 'Mandelbrot fractal',
     description: 'Showcase of the beautiful mMandelbrot fractal',
-    link: '/labs/mandelbrot-fractal',
+    link: '/labs/mandelbrot',
+    image: '/labs/mandelbrot.png'
   },
 ]);
 </script>

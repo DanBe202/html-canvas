@@ -3,9 +3,11 @@ import { ref } from 'vue';
 
 interface Props {
   started?: boolean;
+  hideStart?: boolean;
+  hideReset?: boolean;
 }
 
-const { started } = withDefaults(defineProps<Props>(), { started: false });
+const { started } = withDefaults(defineProps<Props>(), { started: false, hideStart: false, hideReset: false });
 
 const processing = ref(started);
 
@@ -42,11 +44,13 @@ function toggle(): void {
         Info
       </button>
       <button
+        v-if="!hideReset"
         class="btn btn-warning"
         @click="$emit('reset')">
         Reset
       </button>
       <button
+        v-if="!hideStart"
         class="btn"
         :class="processing ? 'btn-error' : 'btn-success'"
         @click="toggle()">

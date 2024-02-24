@@ -89,12 +89,10 @@ export class Canvas {
     this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
-  public putImageData(imageData: ImageData, dx: number, dy: number): void {
-    this.state(() => {
-      const scale = window.devicePixelRatio;
-      this.ctx.scale(1 / scale, 1 / scale);
-      this.ctx.putImageData(imageData, dx, dy);
-    });
+  public async putImageData(imageData: ImageData, dx: number, dy: number): Promise<void> {
+    const bitmap = await createImageBitmap(imageData);
+    this.ctx.imageSmoothingEnabled = false;
+    this.ctx.drawImage(bitmap, dx, dy, this.width, this.height);
   }
 
   private _onResize(element: HTMLElement): void {

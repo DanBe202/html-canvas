@@ -68,7 +68,6 @@ export class HypocycloidScene extends BaseScene {
 
   protected _draw(): void {
     this._resetCanvas();
-    this._step();
     this._line.draw();
     this._innerCircle.draw();
     this._outerCircle.draw();

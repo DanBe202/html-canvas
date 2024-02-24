@@ -35,7 +35,6 @@ export abstract class BaseScene {
 
   public start(): void {
     this._processing.value = true;
-    console.time('performance');
   }
 
   public stop(): void {

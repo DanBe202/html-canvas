@@ -62,7 +62,7 @@ export class EpicycloidScene extends BaseScene {
     this._line.reset();
     this._innerCircle.x = this.canvas.width / 2;
     this._outerCircle.setCenter(this._innerDiameter + this._innerCircle.x, this._innerCircle.y);
-    this._point.setCenter({ x:  this._outerCircle.x + this._pointDistance, y: this._outerCircle.y });
+    this._point.setCenter({ x: this._outerCircle.x + this._pointDistance, y: this._outerCircle.y });
     this._circleAngle.set(360);
     this._pointAngle.set(360);
     if (!this.processing) {

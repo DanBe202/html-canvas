@@ -28,9 +28,14 @@ const router = createRouter({
           component: () => import('../views/labs/HypocycloidView.vue'),
         },
         {
-          path: 'mandelbrot-fractal',
-          name: 'mandelbrot-fractal',
+          path: 'mandelbrot',
+          name: 'mandelbrot',
           component: () => import('../views/labs/MandelbrotView.vue'),
+        },
+        {
+          path: 'mandelbrot-enhanced',
+          name: 'mandelbrot-enhanced',
+          component: () => import('../views/labs/MandelbrotEnhancedView.vue'),
         },
       ]
     }

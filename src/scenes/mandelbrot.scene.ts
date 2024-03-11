@@ -3,10 +3,38 @@ import { Colors } from '@/scenes/common/colors';
 import { Complex } from '@/scenes/common/math/complex';
 
 export class MandelbrotScene extends BaseScene {
-  private readonly _iterations: number = 100;
+  private readonly _iterations: number = 500;
+  private _minX: number;
+  private _maxX: number;
+  private _minY: number;
+  private _maxY: number;
 
-  constructor(root: string) {
+  constructor(root: string, minX: number, maxX: number, minY: number, maxY: number) {
     super(root, 960, 600);
+    this._minX = minX;
+    this._maxX = maxX;
+    this._minY = minY;
+    this._maxY = maxY;
+  }
+
+  set minX(minX: number) {
+    this._minX = minX;
+    this.reset();
+  }
+
+  set maxX(maxX: number) {
+    this._maxX = maxX;
+    this.reset();
+  }
+
+  set minY(minY: number) {
+    this._minY = minY;
+    this.reset();
+  }
+
+  set maxY(maxY: number) {
+    this._maxY = maxY;
+    this.reset();
   }
 
   reset(): void {
@@ -19,14 +47,9 @@ export class MandelbrotScene extends BaseScene {
   }
 
   private mandelbrot(width: number, height: number): void {
-    const minX: number = -2.0;
-    const maxX: number = 0.47;
-    const minY: number = -1.12;
-    const maxY: number = 1.12;
-
     for (let y = 0; y < height; ++y) {
       for (let x = 0; x < width; ++x) {
-        const complexPoint = new Complex(minX + (x / width) * (maxX - minX), minY + (y / height) * (maxY - minY));
+        const complexPoint = new Complex(this._minX + (x / width) * (this._maxX - this._minX), this._minY + (y / height) * (this._maxY - this._minY));
 
         let limit = new Complex(0, 0);
         let iteration = 0;

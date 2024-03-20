@@ -37,6 +37,16 @@ const router = createRouter({
           name: 'mandelbrot-enhanced',
           component: () => import('../views/labs/MandelbrotEnhancedView.vue'),
         },
+        {
+          path: 'cube',
+          name: 'cube',
+          component: () => import('../views/labs/CubeView.vue'),
+        },
+        {
+          path: 'bezier',
+          name: 'bezier',
+          component: () => import('../views/labs/BezierSurfaceView.vue'),
+        },
       ]
     }
   ],

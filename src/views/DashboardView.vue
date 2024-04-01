@@ -23,7 +23,7 @@ const cards = ref([
   },
   {
     title: 'Mandelbrot fractal',
-    description: 'Showcase of the beautiful mMandelbrot fractal',
+    description: 'Showcase of the beautiful Mandelbrot fractal',
     link: '/labs/mandelbrot',
     image: '/labs/mandelbrot.png',
   },
@@ -32,6 +32,12 @@ const cards = ref([
     description: 'Showcase of a rotating cube',
     link: '/labs/cube',
     image: '/labs/cube.png',
+  },
+  {
+    title: 'Bezier surface',
+    description: 'Showcase of the bezier surface',
+    link: '/labs/bezier',
+    image: '/labs/bezier.png',
   },
 ]);
 </script>

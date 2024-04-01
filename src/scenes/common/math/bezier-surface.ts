@@ -20,11 +20,11 @@ export class BezierSurface {
     const linesVectors: Vector[] = [];
     for (let i = 0; i < lines.length; ++i) {
       for (let j = 0; j < lines[i].height; ++j) {
-        if (j < lines.length - 1) {
-          linesVectors.push(new Vector([i * lines.length + j, i * lines.length + j + 1]))
+        if (j < lines[i].height - 1) {
+          linesVectors.push(new Vector([i * lines[i].height + j, i * lines[i].height + j + 1]))
         }
-        if (i < lines[i].height - 1) {
-          linesVectors.push(new Vector([i * lines.length + j, i * lines.length + j + lines.length]))
+        if (i < lines.length - 1) {
+          linesVectors.push(new Vector([i * lines[i].height + j, i * lines[i].height + j + lines[i].height]))
         }
       }
     }

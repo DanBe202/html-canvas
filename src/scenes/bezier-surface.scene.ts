@@ -30,8 +30,7 @@ export class BezierSurfaceScene extends BaseScene {
     this._controlSurface.rotateY(1);
   }
 
-  public changeSurface(cells: Vector): void {
-    const lines: Lines = bezierSurface.map((matrix) => new Matrix(matrix));
+  public changeSurface(lines: Lines, cells: Vector): void {
     const angle = this._surface.angleY;
     this._surface = new Vertices3D(this.canvas, BezierSurface.calculate(lines, cells)).rotateY(angle.degrees);
     this._controlSurface = new Vertices3D(this.canvas, BezierSurface.getControlSurface(lines)).rotateY(angle.degrees);

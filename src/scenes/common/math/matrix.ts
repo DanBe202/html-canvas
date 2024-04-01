@@ -2,6 +2,7 @@ import { Vector } from '@/scenes/common/math/vector';
 
 export class Matrix {
   private readonly _matrix: Vector[];
+  public readonly id = Math.random().toString(16);
 
   constructor(matrix: Vector[] | number[][] | Matrix) {
     if (matrix instanceof Matrix) {
@@ -9,10 +10,10 @@ export class Matrix {
       return;
     }
     if (!matrix.length) {
-      throw new Error("Matrix is EMPTY!");
+      throw new Error('Matrix is EMPTY!');
     }
     if (matrix.some((vector) => matrix[0].length !== vector.length)) {
-      throw new Error("Matrix is INCORRECT!");
+      throw new Error('Matrix is INCORRECT!');
     }
     this._matrix = matrix.map((vector) => new Vector(vector));
   }
@@ -45,7 +46,7 @@ export class Matrix {
     return new Matrix(
       new Array(this.width)
         .fill(new Array(this.height).fill(0))
-        .map((row, rowIndex) => row.map((col: number, colIndex: number) => this._matrix[colIndex].vector[rowIndex]))
+        .map((row, rowIndex) => row.map((col: number, colIndex: number) => this._matrix[colIndex].vector[rowIndex])),
     );
   }
 
@@ -67,7 +68,7 @@ export class Matrix {
       return this.map((value) => value * other);
     }
     if (this.width !== other.height) {
-      throw new Error("Matrices are the wrong sizes");
+      throw new Error('Matrices are the wrong sizes');
     }
     return new Matrix(
       this.mapRow((_, i) => {
@@ -79,6 +80,6 @@ export class Matrix {
   }
 
   static from(rows: number, cols: number, fill: number = 0): Matrix {
-    return new Matrix(new Array(rows).fill(new Array(cols).fill(fill)));
+    return new Matrix(new Array(rows).fill(new Array(cols).fill(fill))).mapRow((vector) => new Vector(vector));
   }
 }

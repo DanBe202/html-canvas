@@ -2,13 +2,14 @@ import { Matrix } from '@/scenes/common/math/matrix';
 
 export class Vector {
   private readonly _vector: number[];
+  public readonly id = Math.random().toString(16);
 
   constructor(vector: number[] | Vector) {
     if (Array.isArray(vector)) {
-      this._vector = vector;
+      this._vector = [...vector];
       return;
     }
-    this._vector = vector.vector;
+    this._vector = [...vector.vector];
   }
 
   get vector(): number[] {
@@ -33,5 +34,9 @@ export class Vector {
 
   static linspace(start: number, end: number, count: number): Vector {
     return new Vector(new Array(count).fill(start).map((value, index) => value + (end - start) / (count - 1) * index));
+  }
+
+  static zero(): Vector {
+    return new Vector([0, 0, 0]);
   }
 }

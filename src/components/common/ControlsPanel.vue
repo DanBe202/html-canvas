@@ -56,6 +56,7 @@ function toggle(): void {
         @click="toggle()">
         {{ processing ? 'Stop' : 'Start' }}
       </button>
+      <slot name="button"></slot>
     </div>
   </div>
 </template>
